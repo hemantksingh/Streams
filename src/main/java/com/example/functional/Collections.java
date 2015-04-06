@@ -8,7 +8,7 @@ import java.util.function.Predicate;
  * Created by hkumar on 06/04/2015.
  */
 public class Collections {
-    public static void main (String[] args) {
+    public static void summary () {
         final String summary = summary (food);
         final String desiredSummary = "carrots & bananas & pumpkins & broccoli & meat";
 

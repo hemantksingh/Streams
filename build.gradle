@@ -12,6 +12,6 @@ dependencies {
 }
 
 task( run, dependsOn: jar, type: JavaExec ) {
-    main = 'com.example.functional.Collections'
+    main = 'com.example.functional.App'
     classpath = sourceSets.main.runtimeClasspath
 }
