@@ -1,6 +1,7 @@
 package com.example.functional;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,7 +66,7 @@ public class TodaysSales {
         String distinctItems = itemStream.get()
                 .map(item -> item.name)
                 .distinct()
-                .collect(Collectors.joining(" , ")); //Stream of String to a list
+                .collect(Collectors.joining(" , ")); //Stream of String to a single joined String
         System.out.println("Distinct items sold: " + distinctItems);
 
         // Summarise sales by store
@@ -75,6 +76,27 @@ public class TodaysSales {
 
         summary.keySet().stream().forEach(
                 store -> System.out.println(store + " stats: " + summary.get(store)));
+
+        canCreateItemWithFuncs();
+    }
+
+    private static void canCreateItemWithFuncs() {
+        Supplier<Item> supplier = () -> new Item("pastry", 20.20);
+        Item pastry = supplier.get();
+
+        Function<String, Item> createItem = s -> new Item(s, 20.20);
+        Item popcorn = createItem.apply("popcorn");
+
+        ItemFactory factory = (name, price) -> new Item(name, price);
+        Item nachos = factory.create("nachos", 20.20);
+
+        Function<Item, Function<Item, Double>> totalPrice = x -> y -> x.price + y.price;
+        System.out.print(totalPrice.apply(pastry).apply(popcorn).equals(40.40));
+    }
+
+    @FunctionalInterface
+    interface ItemFactory{
+        Item create(String name, double price);
     }
 }
 
