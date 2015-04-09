@@ -1,6 +1,7 @@
 package com.example.functional;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -81,6 +82,7 @@ public class TodaysSales {
     }
 
     private static void canCreateItemWithFuncs() {
+
         Supplier<Item> supplier = () -> new Item("pastry", 20.20);
         Item pastry = supplier.get();
 
@@ -89,6 +91,10 @@ public class TodaysSales {
 
         ItemFactory factory = (name, price) -> new Item(name, price);
         Item nachos = factory.create("nachos", 20.20);
+
+        Consumer<Item> consumer = item -> System.out.println(
+                String.format("Price for item: %s is \"%s\"", item.name , item.price));
+        consumer.accept(nachos);
 
         Function<Item, Function<Item, Double>> totalPrice = x -> y -> x.price + y.price;
         System.out.print(totalPrice.apply(pastry).apply(popcorn).equals(40.40));
