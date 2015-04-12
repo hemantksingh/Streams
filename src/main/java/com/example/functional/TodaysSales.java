@@ -62,11 +62,14 @@ public class TodaysSales {
         System.out.println("Distinct items sold: " + distinctItems);
 
         // Summarise sales by store
-        Map<String, DoubleSummaryStatistics> summary = saleStream().collect(Collectors.groupingBy(
-                sale -> sale.store,
-                Collectors.summarizingDouble(value -> value.total())));
+        Map<String, DoubleSummaryStatistics> summary = saleStream()
+                .parallel()
+                .collect(Collectors.groupingBy(
+                        sale -> Thread.currentThread().getName(),
+                        Collectors.summarizingDouble(value -> value.total())));
 
-        summary.keySet().stream().forEach(
+        System.out.println("Summary by thread: " + summary);
+        summary.keySet().stream().sorted().forEach(
                 store -> System.out.println(store + " stats: " + summary.get(store)));
 
         canCreateItemWithFuncs();
