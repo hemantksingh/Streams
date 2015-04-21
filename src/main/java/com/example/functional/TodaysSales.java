@@ -72,6 +72,9 @@ public class TodaysSales {
         summary.keySet().stream().sorted().forEach(
                 store -> System.out.println(store + " stats: " + summary.get(store)));
 
+        System.out.println("Cookies sold by: " + new OptionalExample()
+                .cookiesSoldBy().orElse("Can't say"));
+
         canCreateItemWithFuncs();
     }
 
